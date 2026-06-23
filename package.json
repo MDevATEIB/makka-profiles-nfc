@@ -2,7 +2,7 @@
   "name": "makka-profiles-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://USERNAME.github.io/makka-profiles",
+  "homepage": "https://mdevateib.github.io/makka-profiles-nfc",
   "description": "Makka NFC Profiles - Cartes de visite numériques professionnelles",
   "main": "index.js",
   "scripts": {

@@ -24,37 +24,34 @@ export default function ProfilePage() {
   const [showQR, setShowQR] = useState(false);
 
   useEffect(() => {
-    fetchProfile();
-    incrementViews();
+    async function loadProfile() {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('profile_id', profileId)
+          .single();
+
+        if (error) throw error;
+        setProfile(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement du profil:', error);
+        setProfile(null);
+      } finally {
+        setLoading(false);
+      }
+      
+      // Incrémenter les vues
+      try {
+        await supabase.rpc('increment_profile_views', {
+          p_profile_id: profileId,
+        });
+      } catch (error) {
+        console.error('Erreur lors de l\'incrémentation des vues:', error);
+      }
+    }
+    loadProfile();
   }, [profileId]);
-
-  async function fetchProfile() {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('profile_id', profileId)
-        .single();
-
-      if (error) throw error;
-      setProfile(data);
-    } catch (error) {
-      console.error('Erreur lors du chargement du profil:', error);
-      setProfile(null);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function incrementViews() {
-    try {
-      await supabase.rpc('increment_profile_views', {
-        p_profile_id: profileId,
-      });
-    } catch (error) {
-      console.error('Erreur lors de l\'incrémentation des vues:', error);
-    }
-  }
 
   function generateVCard() {
     if (!profile) return '';

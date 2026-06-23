@@ -12,7 +12,7 @@ export async function uploadPhoto(file, profileId) {
   const fileName = `${profileId}-${Date.now()}.${fileExt}`;
   const filePath = `${fileName}`;
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('profile-photos')
     .upload(filePath, file, {
       cacheControl: '3600',
