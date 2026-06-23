@@ -1,70 +1,139 @@
-# Getting Started with Create React App
+# Makka NFC Profiles - Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Application web React pour afficher les profils professionnels NFC.
 
-## Available Scripts
+## 🚀 Configuration
 
-In the project directory, you can run:
+### 1. Configurer Supabase
 
-### `npm start`
+Ouvrez le fichier `src/lib/supabase.js` et remplacez les valeurs suivantes par vos vraies clés Supabase :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```javascript
+const supabaseUrl = 'VOTRE_URL_SUPABASE';
+const supabaseAnonKey = 'VOTRE_ANON_KEY_SUPABASE';
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Installer les dépendances
 
-### `npm test`
+```bash
+npm install
+npm install -D gh-pages
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. Lancer en développement
 
-### `npm run build`
+```bash
+npm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+L'application sera accessible sur `http://localhost:3000`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📦 Déploiement sur GitHub Pages
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. Configurer le repository
 
-### `npm run eject`
+Dans `package.json`, remplacez `USERNAME` par votre nom d'utilisateur GitHub :
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```json
+"homepage": "https://USERNAME.github.io/makka-profiles"
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2. Créer le repository sur GitHub
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Allez sur GitHub et créez un nouveau repository nommé `makka-profiles`
+2. Ne l'initialisez pas avec README, .gitignore ou LICENSE
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Initialiser Git et pousser
 
-## Learn More
+```bash
+git init
+git add .
+git commit -m "Initial commit - Makka NFC Profiles Web App"
+git branch -M main
+git remote add origin https://github.com/USERNAME/makka-profiles.git
+git push -u origin main
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. Déployer sur GitHub Pages
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run deploy
+```
 
-### Code Splitting
+L'application sera déployée sur `https://USERNAME.github.io/makka-profiles`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🎨 Fonctionnalités
 
-### Analyzing the Bundle Size
+### Page d'accueil (`/`)
+- Liste de tous les profils
+- Recherche par nom, entreprise, titre
+- Statistiques des profils
+- Design responsive
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Page de profil (`/p/:profileId`)
+- Affichage complet du profil
+- Photo de profil
+- Informations de contact (email, téléphone, site web, localisation)
+- Réseaux sociaux
+- Compteur de vues
+- QR Code dynamique
+- Téléchargement vCard (.vcf)
+- Partage du profil
 
-### Making a Progressive Web App
+## 🛠️ Technologies utilisées
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **React 18** - Framework UI
+- **React Router** - Routing
+- **Tailwind CSS** - Styling
+- **Supabase** - Backend (Base de données + Storage)
+- **Lucide React** - Icônes
+- **qrcode.react** - Génération de QR codes
+- **GitHub Pages** - Hébergement
 
-### Advanced Configuration
+## 📁 Structure du projet
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+makka-profiles-web/
+├── public/
+│   ├── index.html
+│   └── manifest.json
+├── src/
+│   ├── components/
+│   │   └── LoadingSpinner.jsx
+│   ├── lib/
+│   │   └── supabase.js
+│   ├── pages/
+│   │   ├── HomePage.jsx
+│   │   ├── ProfilePage.jsx
+│   │   └── NotFoundPage.jsx
+│   ├── App.jsx
+│   ├── index.js
+│   └── index.css
+├── package.json
+├── tailwind.config.js
+└── postcss.config.js
+```
 
-### Deployment
+## 🔗 URLs des profils
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Les profils sont accessibles via : `https://USERNAME.github.io/makka-profiles/p/PROFILE_ID`
 
-### `npm run build` fails to minify
+Exemple : `https://USERNAME.github.io/makka-profiles/p/DEMO01`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📱 Intégration avec l'app mobile
+
+L'app mobile React Native permettra de :
+1. Créer de nouveaux profils
+2. Uploader des photos
+3. Écrire l'URL du profil sur les tags NFC
+4. Gérer les profils existants
+
+## 👨‍💻 Développé par
+
+**MakkaDev**  
+Ateib Abakar Bachar - CEO & Fondateur  
+Développeur web/mobile & solutions métiers
+
+## 📄 Licence
+
+ISC © 2024 MakkaDev
