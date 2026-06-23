@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/makka-profiles/static/css/main.376a8dc0.css",
+    "main.js": "/makka-profiles/static/js/main.114170a7.js",
+    "index.html": "/makka-profiles/index.html",
+    "main.376a8dc0.css.map": "/makka-profiles/static/css/main.376a8dc0.css.map",
+    "main.114170a7.js.map": "/makka-profiles/static/js/main.114170a7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.376a8dc0.css",
+    "static/js/main.114170a7.js"
+  ]
+}
