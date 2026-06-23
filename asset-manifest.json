@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/makka-profiles/static/css/main.376a8dc0.css",
-    "main.js": "/makka-profiles/static/js/main.114170a7.js",
-    "index.html": "/makka-profiles/index.html",
-    "main.376a8dc0.css.map": "/makka-profiles/static/css/main.376a8dc0.css.map",
-    "main.114170a7.js.map": "/makka-profiles/static/js/main.114170a7.js.map"
+    "main.css": "/makka-profiles-nfc/static/css/main.376a8dc0.css",
+    "main.js": "/makka-profiles-nfc/static/js/main.bdeb466b.js",
+    "index.html": "/makka-profiles-nfc/index.html",
+    "main.376a8dc0.css.map": "/makka-profiles-nfc/static/css/main.376a8dc0.css.map",
+    "main.bdeb466b.js.map": "/makka-profiles-nfc/static/js/main.bdeb466b.js.map"
   },
   "entrypoints": [
     "static/css/main.376a8dc0.css",
-    "static/js/main.114170a7.js"
+    "static/js/main.bdeb466b.js"
   ]
 }
