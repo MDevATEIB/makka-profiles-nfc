@@ -6,7 +6,7 @@ import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/makka-profiles-nfc">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/p/:profileId" element={<ProfilePage />} />
