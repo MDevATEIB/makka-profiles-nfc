@@ -15,13 +15,28 @@ export default function HomePage() {
 
   async function fetchProfiles() {
     try {
+      console.log('📡 Récupération des profils depuis la DB...');
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setProfiles(data || []);
+      
+      console.log('📊 Données brutes reçues:', data?.map(p => ({
+        profile_id: p.profile_id,
+        abonnement_actif: p.abonnement_actif
+      })));
+      
+      // Filtrer les profils avec abonnement actif
+      const activeProfiles = (data || []).filter(profile => {
+        console.log(`Vérification profil ${profile.profile_id}: abonnement_actif =`, profile.abonnement_actif);
+        return profile.abonnement_actif;
+      });
+      
+      console.log(`📋 Profils actifs: ${activeProfiles.length} / ${data?.length}`);
+      
+      setProfiles(activeProfiles);
     } catch (error) {
       console.error('Erreur lors du chargement des profils:', error);
     } finally {

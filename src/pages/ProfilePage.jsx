@@ -168,6 +168,31 @@ export default function ProfilePage() {
     );
   }
 
+  // Vérifier si l'abonnement est actif
+  if (!profile.abonnement_actif) {
+    console.log(`❌ Profil ${profileId} a un abonnement inactif`);
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
+          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Abonnement expiré</h2>
+          <p className="text-gray-600 mb-6">Ce profil n'est plus accessible. Contactez le propriétaire pour plus d'informations.</p>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Retour à l'accueil
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const profileUrl = window.location.href;
 
   return (
