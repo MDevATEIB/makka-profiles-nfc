@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/makka-profiles-nfc/static/css/main.376a8dc0.css",
-    "main.js": "/makka-profiles-nfc/static/js/main.93e90291.js",
+    "main.js": "/makka-profiles-nfc/static/js/main.1fc878b7.js",
     "index.html": "/makka-profiles-nfc/index.html",
     "main.376a8dc0.css.map": "/makka-profiles-nfc/static/css/main.376a8dc0.css.map",
-    "main.93e90291.js.map": "/makka-profiles-nfc/static/js/main.93e90291.js.map"
+    "main.1fc878b7.js.map": "/makka-profiles-nfc/static/js/main.1fc878b7.js.map"
   },
   "entrypoints": [
     "static/css/main.376a8dc0.css",
-    "static/js/main.93e90291.js"
+    "static/js/main.1fc878b7.js"
   ]
 }
