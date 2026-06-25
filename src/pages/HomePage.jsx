@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Search, Users, Briefcase, MapPin, Eye } from 'lucide-react';
+import { Search, Users, Briefcase, MapPin, Eye, CheckCircle, ShieldCheck } from 'lucide-react';
 
 export default function HomePage() {
   const [profiles, setProfiles] = useState([]);
@@ -15,7 +15,6 @@ export default function HomePage() {
 
   async function fetchProfiles() {
     try {
-      console.log('📡 Récupération des profils depuis la DB...');
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -23,19 +22,8 @@ export default function HomePage() {
 
       if (error) throw error;
       
-      console.log('📊 Données brutes reçues:', data?.map(p => ({
-        profile_id: p.profile_id,
-        abonnement_actif: p.abonnement_actif
-      })));
-      
       // Filtrer les profils avec abonnement actif
-      const activeProfiles = (data || []).filter(profile => {
-        console.log(`Vérification profil ${profile.profile_id}: abonnement_actif =`, profile.abonnement_actif);
-        return profile.abonnement_actif;
-      });
-      
-      console.log(`📋 Profils actifs: ${activeProfiles.length} / ${data?.length}`);
-      
+      const activeProfiles = (data || []).filter(profile => profile.abonnement_actif);
       setProfiles(activeProfiles);
     } catch (error) {
       console.error('Erreur lors du chargement des profils:', error);
@@ -57,114 +45,148 @@ export default function HomePage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <div className="min-h-screen bg-[#0a0a0a]">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <header className="border-b border-[rgba(0,212,255,0.15)] bg-[rgba(10,10,10,0.8)] backdrop-blur-xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Makka NFC Profiles</h1>
-              <p className="text-gray-600 mt-1">Cartes de visite numériques professionnelles</p>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#0099cc] flex items-center justify-center animate-pulse-glow">
+                <Users className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-[#00d4ff] bg-clip-text text-transparent">
+                  Makka NFC
+                </h1>
+                <p className="text-gray-400 text-sm">Réseautage digital premium</p>
+              </div>
             </div>
-            <div className="bg-blue-100 p-3 rounded-xl">
-              <Users className="w-8 h-8 text-blue-600" />
+            <div className="flex items-center gap-2 px-4 py-2 bg-[rgba(0,212,255,0.1)] rounded-full border border-[rgba(0,212,255,0.2)]">
+              <ShieldCheck className="w-5 h-5 text-[#00d4ff]" />
+              <span className="text-[#00d4ff] text-sm font-medium">Profil vérifié</span>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search Bar */}
-        <div className="mb-8">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <div className="mb-12">
+          <div className="relative max-w-2xl mx-auto">
+            <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
             <input
               type="text"
               placeholder="Rechercher un profil par nom, entreprise..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-white rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              className="w-full pl-16 pr-6 py-5 bg-[rgba(20,20,20,0.7)] backdrop-blur-xl border-2 border-[rgba(0,212,255,0.2)] rounded-3xl focus:outline-none focus:border-[#00d4ff] focus:ring-4 focus:ring-[rgba(0,212,255,0.1)] text-white text-lg placeholder-gray-500 transition-all duration-300"
             />
           </div>
         </div>
 
         {/* Stats */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
-          <div className="flex items-center gap-3">
-            <Users className="w-6 h-6 text-blue-600" />
-            <span className="text-gray-600">
-              {filteredProfiles.length} profil{filteredProfiles.length > 1 ? 's' : ''} trouvé{filteredProfiles.length > 1 ? 's' : ''}
-            </span>
+        <div className="mb-12 flex items-center justify-center gap-4">
+          <div className="px-8 py-4 bg-[rgba(20,20,20,0.7)] backdrop-blur-xl rounded-2xl border border-[rgba(0,212,255,0.15)]">
+            <div className="flex items-center gap-3">
+              <Users className="w-6 h-6 text-[#00d4ff]" />
+              <span className="text-2xl font-bold text-white">{filteredProfiles.length}</span>
+              <span className="text-gray-400">profils</span>
+            </div>
           </div>
         </div>
 
         {/* Profiles Grid */}
         {filteredProfiles.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center border border-gray-100">
-            <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <div className="text-center py-24">
+            <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-[rgba(20,20,20,0.7)] backdrop-blur-xl flex items-center justify-center border border-[rgba(0,212,255,0.15)]">
+              <Users className="w-16 h-16 text-gray-600" />
+            </div>
+            <h3 className="text-2xl font-semibold text-white mb-3">
               Aucun profil trouvé
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-500 text-lg">
               {searchTerm
                 ? "Essayez avec d'autres termes de recherche"
                 : "Aucun profil n'est encore disponible"}
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProfiles.map((profile) => (
               <Link
                 key={profile.id}
                 to={`/p/${profile.profile_id}`}
-                className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105"
+                className="group"
               >
-                {/* Photo */}
-                <div className="h-48 bg-gradient-to-br from-blue-500 to-blue-600 relative overflow-hidden">
-                  {profile.photo_url ? (
-                    <img
-                      src={profile.photo_url}
-                      alt={`${profile.first_name} ${profile.last_name}`}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Users className="w-24 h-24 text-white opacity-50" />
+                {/* Premium Profile Card */}
+                <div className="relative overflow-hidden bg-[rgba(20,20,20,0.7)] backdrop-blur-xl rounded-3xl border-2 border-[rgba(0,212,255,0.15)] transition-all duration-500 hover:border-[#00d4ff] hover:shadow-[0_0_50px_rgba(0,212,255,0.2)] hover:-translate-y-2">
+                  {/* Accent Border */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00d4ff] via-[#0099cc] to-[#00d4ff]" />
+                  
+                  {/* Profile Photo */}
+                  <div className="h-56 bg-gradient-to-br from-[#00d4ff]/20 to-[#0099cc]/20 relative overflow-hidden">
+                    {profile.photo_url ? (
+                      <img
+                        src={profile.photo_url}
+                        alt={`${profile.first_name} ${profile.last_name}`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-28 h-28 rounded-full bg-[rgba(0,212,255,0.2)] flex items-center justify-center">
+                          <Users className="w-14 h-14 text-[#00d4ff]" />
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Verified Badge */}
+                    <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-[rgba(0,212,255,0.9)] backdrop-blur-sm px-3 py-1.5 rounded-full">
+                      <CheckCircle className="w-4 h-4 text-white" />
+                      <span className="text-xs font-bold text-white">VÉRIFIÉ</span>
                     </div>
-                  )}
-                </div>
+                  </div>
 
-                {/* Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {profile.first_name} {profile.last_name}
-                  </h3>
+                  {/* Profile Info */}
+                  <div className="p-7">
+                    <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-[#00d4ff] transition-colors">
+                      {profile.first_name} {profile.last_name}
+                    </h3>
 
-                  {profile.title && (
-                    <div className="flex items-center gap-2 text-gray-600 mb-2">
-                      <Briefcase className="w-4 h-4" />
-                      <span className="text-sm">{profile.title}</span>
+                    {profile.title && (
+                      <p className="text-[#00d4ff] text-sm font-medium mb-3 flex items-center gap-2">
+                        <Briefcase className="w-4 h-4" />
+                        {profile.title}
+                      </p>
+                    )}
+
+                    {profile.company && (
+                      <div className="flex items-center gap-2 text-gray-300 mb-5">
+                        <Users className="w-4 h-4 text-gray-500" />
+                        <span className="font-medium">{profile.company}</span>
+                      </div>
+                    )}
+
+                    {profile.location && (
+                      <div className="flex items-center gap-2 text-gray-400 text-sm mb-5">
+                        <MapPin className="w-4 h-4" />
+                        <span>{profile.location}</span>
+                      </div>
+                    )}
+
+                    {/* View Count */}
+                    <div className="flex items-center justify-between pt-5 border-t border-[rgba(0,212,255,0.1)]">
+                      <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <Eye className="w-4 h-4" />
+                        <span>{profile.views_count || 0} vues</span>
+                      </div>
+                      <div className="text-[#00d4ff] font-medium text-sm flex items-center gap-1">
+                        Voir profil
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                  )}
-
-                  {profile.company && (
-                    <div className="flex items-center gap-2 text-gray-600 mb-2">
-                      <Users className="w-4 h-4" />
-                      <span className="text-sm font-medium">{profile.company}</span>
-                    </div>
-                  )}
-
-                  {profile.location && (
-                    <div className="flex items-center gap-2 text-gray-600 mb-4">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">{profile.location}</span>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-2 text-gray-500 text-sm pt-4 border-t border-gray-100">
-                    <Eye className="w-4 h-4" />
-                    <span>{profile.views_count || 0} vues</span>
                   </div>
                 </div>
               </Link>
@@ -174,14 +196,14 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-600">
-            <p className="font-medium text-gray-900 mb-2">Makka NFC Profiles</p>
-            <p className="text-sm">
-              Développé par <span className="font-semibold text-blue-600">MakkaDev</span>
+      <footer className="border-t border-[rgba(0,212,255,0.15)] mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="text-center">
+            <p className="font-semibold text-white mb-2">Makka NFC Profiles</p>
+            <p className="text-gray-500 text-sm">
+              Développé par <span className="text-[#00d4ff]">MakkaDev</span>
             </p>
-            <p className="text-sm mt-1">© 2024 - Tous droits réservés</p>
+            <p className="text-gray-600 text-xs mt-1">© 2026 - Tous droits réservés</p>
           </div>
         </div>
       </footer>
