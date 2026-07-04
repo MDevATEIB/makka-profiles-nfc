@@ -14,7 +14,8 @@ import {
   Share2,
   Download,
   CheckCircle,
-  ShieldCheck
+  ShieldCheck,
+  QrCode
 } from 'lucide-react';
 import {
   FaFacebook,
@@ -434,7 +435,7 @@ END:VCARD`;
                   onClick={() => setShowQR(!showQR)}
                   className="w-full py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:border-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-blue-500/10"
                 >
-                  <Share2 className="w-5 h-5" />
+                  <QrCode className="w-5 h-5" />
                   {showQR ? "Masquer le QR Code" : "Afficher le QR Code"}
                 </button>
                 <button
