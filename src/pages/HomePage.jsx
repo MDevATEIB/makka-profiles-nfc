@@ -45,53 +45,60 @@ export default function HomePage() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-3xl" />
+      </div>
+
       {/* Header */}
-      <header className="border-b border-[rgba(0,212,255,0.15)] bg-[rgba(10,10,10,0.8)] backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <header className="relative border-b border-white/10 bg-white/5 backdrop-blur-2xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#0099cc] flex items-center justify-center animate-pulse-glow">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <Users className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-[#00d4ff] bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
                   Makka NFC
                 </h1>
-                <p className="text-gray-400 text-sm">Réseautage digital premium</p>
+                <p className="text-white/50 text-sm">Réseautage digital premium</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-[rgba(0,212,255,0.1)] rounded-full border border-[rgba(0,212,255,0.2)]">
-              <ShieldCheck className="w-5 h-5 text-[#00d4ff]" />
-              <span className="text-[#00d4ff] text-sm font-medium">Profil vérifié</span>
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20 backdrop-blur-xl">
+              <ShieldCheck className="w-5 h-5 text-blue-400" />
+              <span className="text-blue-400 text-sm font-medium">Profil vérifié</span>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search Bar */}
         <div className="mb-12">
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+            <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white/50 w-6 h-6" />
             <input
               type="text"
               placeholder="Rechercher un profil par nom, entreprise..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-16 pr-6 py-5 bg-[rgba(20,20,20,0.7)] backdrop-blur-xl border-2 border-[rgba(0,212,255,0.2)] rounded-3xl focus:outline-none focus:border-[#00d4ff] focus:ring-4 focus:ring-[rgba(0,212,255,0.1)] text-white text-lg placeholder-gray-500 transition-all duration-300"
+              className="w-full pl-16 pr-6 py-5 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl focus:outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 text-white text-lg placeholder-white/30 transition-all duration-300"
             />
           </div>
         </div>
 
         {/* Stats */}
         <div className="mb-12 flex items-center justify-center gap-4">
-          <div className="px-8 py-4 bg-[rgba(20,20,20,0.7)] backdrop-blur-xl rounded-2xl border border-[rgba(0,212,255,0.15)]">
+          <div className="px-8 py-4 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 shadow-xl">
             <div className="flex items-center gap-3">
-              <Users className="w-6 h-6 text-[#00d4ff]" />
+              <Users className="w-6 h-6 text-blue-400" />
               <span className="text-2xl font-bold text-white">{filteredProfiles.length}</span>
-              <span className="text-gray-400">profils</span>
+              <span className="text-white/50">profils</span>
             </div>
           </div>
         </div>
@@ -99,20 +106,20 @@ export default function HomePage() {
         {/* Profiles Grid */}
         {filteredProfiles.length === 0 ? (
           <div className="text-center py-24">
-            <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-[rgba(20,20,20,0.7)] backdrop-blur-xl flex items-center justify-center border border-[rgba(0,212,255,0.15)]">
-              <Users className="w-16 h-16 text-gray-600" />
+            <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-white/10 backdrop-blur-2xl flex items-center justify-center border border-white/20 shadow-xl">
+              <Users className="w-16 h-16 text-white/30" />
             </div>
             <h3 className="text-2xl font-semibold text-white mb-3">
               Aucun profil trouvé
             </h3>
-            <p className="text-gray-500 text-lg">
+            <p className="text-white/50 text-lg">
               {searchTerm
                 ? "Essayez avec d'autres termes de recherche"
                 : "Aucun profil n'est encore disponible"}
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProfiles.map((profile) => (
               <Link
                 key={profile.id}
@@ -120,12 +127,12 @@ export default function HomePage() {
                 className="group"
               >
                 {/* Premium Profile Card */}
-                <div className="relative overflow-hidden bg-[rgba(20,20,20,0.7)] backdrop-blur-xl rounded-3xl border-2 border-[rgba(0,212,255,0.15)] transition-all duration-500 hover:border-[#00d4ff] hover:shadow-[0_0_50px_rgba(0,212,255,0.2)] hover:-translate-y-2">
+                <div className="relative overflow-hidden bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 transition-all duration-500 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2">
                   {/* Accent Border */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00d4ff] via-[#0099cc] to-[#00d4ff]" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500" />
                   
                   {/* Profile Photo */}
-                  <div className="h-56 bg-gradient-to-br from-[#00d4ff]/20 to-[#0099cc]/20 relative overflow-hidden">
+                  <div className="h-56 bg-gradient-to-br from-blue-500/20 to-purple-500/20 relative overflow-hidden">
                     {profile.photo_url ? (
                       <img
                         src={profile.photo_url}
@@ -134,14 +141,14 @@ export default function HomePage() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-28 h-28 rounded-full bg-[rgba(0,212,255,0.2)] flex items-center justify-center">
-                          <Users className="w-14 h-14 text-[#00d4ff]" />
+                        <div className="w-28 h-28 rounded-full bg-white/10 flex items-center justify-center">
+                          <Users className="w-14 h-14 text-white/30" />
                         </div>
                       </div>
                     )}
                     
                     {/* Verified Badge */}
-                    <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-[rgba(0,212,255,0.9)] backdrop-blur-sm px-3 py-1.5 rounded-full">
+                    <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-blue-500/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-blue-400/30">
                       <CheckCircle className="w-4 h-4 text-white" />
                       <span className="text-xs font-bold text-white">VÉRIFIÉ</span>
                     </div>
@@ -149,38 +156,38 @@ export default function HomePage() {
 
                   {/* Profile Info */}
                   <div className="p-7">
-                    <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-[#00d4ff] transition-colors">
+                    <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
                       {profile.first_name} {profile.last_name}
                     </h3>
 
                     {profile.title && (
-                      <p className="text-[#00d4ff] text-sm font-medium mb-3 flex items-center gap-2">
+                      <p className="text-blue-400 text-sm font-medium mb-3 flex items-center gap-2">
                         <Briefcase className="w-4 h-4" />
                         {profile.title}
                       </p>
                     )}
 
                     {profile.company && (
-                      <div className="flex items-center gap-2 text-gray-300 mb-5">
-                        <Users className="w-4 h-4 text-gray-500" />
+                      <div className="flex items-center gap-2 text-white/70 mb-5">
+                        <Users className="w-4 h-4 text-white/30" />
                         <span className="font-medium">{profile.company}</span>
                       </div>
                     )}
 
                     {profile.location && (
-                      <div className="flex items-center gap-2 text-gray-400 text-sm mb-5">
+                      <div className="flex items-center gap-2 text-white/50 text-sm mb-5">
                         <MapPin className="w-4 h-4" />
                         <span>{profile.location}</span>
                       </div>
                     )}
 
                     {/* View Count */}
-                    <div className="flex items-center justify-between pt-5 border-t border-[rgba(0,212,255,0.1)]">
-                      <div className="flex items-center gap-2 text-gray-400 text-sm">
+                    <div className="flex items-center justify-between pt-5 border-t border-white/10">
+                      <div className="flex items-center gap-2 text-white/50 text-sm">
                         <Eye className="w-4 h-4" />
                         <span>{profile.views_count || 0} vues</span>
                       </div>
-                      <div className="text-[#00d4ff] font-medium text-sm flex items-center gap-1">
+                      <div className="text-blue-400 font-medium text-sm flex items-center gap-1">
                         Voir profil
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -196,14 +203,14 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[rgba(0,212,255,0.15)] mt-20">
+      <footer className="relative border-t border-white/10 mt-20 bg-white/5 backdrop-blur-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="text-center">
             <p className="font-semibold text-white mb-2">Makka NFC Profiles</p>
-            <p className="text-gray-500 text-sm">
-              Développé par <span className="text-[#00d4ff]">MakkaDev</span>
+            <p className="text-white/50 text-sm">
+              Développé par <span className="text-blue-400">MakkaDev</span>
             </p>
-            <p className="text-gray-600 text-xs mt-1">© 2026 - Tous droits réservés</p>
+            <p className="text-white/30 text-xs mt-1">© 2026 - Tous droits réservés</p>
           </div>
         </div>
       </footer>
