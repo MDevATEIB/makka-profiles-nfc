@@ -87,6 +87,29 @@ END:VCARD`;
     URL.revokeObjectURL(url);
   }
 
+  async function shareProfile() {
+    const shareData = {
+      title: `${profile.first_name} ${profile.last_name}`,
+      text: `Découvrez le profil de ${profile.first_name} ${profile.last_name}${profile.title ? ` - ${profile.title}` : ''}`,
+      url: `https://mdevateib.github.io/makka-profiles-nfc/p/${profile.profile_id}`
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        console.error('Erreur lors du partage:', error);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(shareData.url).then(() => {
+        alert('Lien copié dans le presse-papiers !');
+      }).catch(() => {
+        alert('Partage non supporté sur ce navigateur');
+      });
+    }
+  }
+
   if (loading) return <LoadingSpinner />;
 
   if (!profile) return (
@@ -406,17 +429,26 @@ END:VCARD`;
 
             {/* QR Code Card */}
             <div className="md:col-span-3 bg-white/10 backdrop-blur-2xl rounded-[32px] border border-white/20 p-8 shadow-2xl">
-              <button
-                onClick={() => setShowQR(!showQR)}
-                className="w-full py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:border-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-blue-500/10"
-              >
-                <Share2 className="w-5 h-5" />
-                {showQR ? "Masquer le QR Code" : "Afficher le QR Code"}
-              </button>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => setShowQR(!showQR)}
+                  className="w-full py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:border-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-blue-500/10"
+                >
+                  <Share2 className="w-5 h-5" />
+                  {showQR ? "Masquer le QR Code" : "Afficher le QR Code"}
+                </button>
+                <button
+                  onClick={shareProfile}
+                  className="w-full py-4 bg-white/5 text-white font-semibold rounded-2xl border border-white/10 hover:border-blue-500/50 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-blue-500/10"
+                >
+                  <Share2 className="w-5 h-5" />
+                  Partager
+                </button>
+              </div>
               {showQR && (
                 <div className="mt-6 p-8 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center">
                   <QRCodeSVG
-                    value={`${window.location.origin}/p/${profile.profile_id}`}
+                    value={`https://mdevateib.github.io/makka-profiles-nfc/p/${profile.profile_id}`}
                     size={200}
                     fgColor="#3b82f6"
                     bgColor="rgba(255,255,255,0.05)"
