@@ -1,107 +1,97 @@
-# ⚡ Quick Start - Makka NFC Profiles Web
+# ⚡ Quick Start - Test de la fonctionnalité Offline
 
-## 🚀 Démarrage rapide en 5 étapes
-
-### 1️⃣ Configurer Supabase (2 minutes)
-
-Ouvrez `src/lib/supabase.js` et remplacez :
-
-```javascript
-const supabaseUrl = 'VOTRE_URL_SUPABASE';
-const supabaseAnonKey = 'VOTRE_ANON_KEY_SUPABASE';
-```
-
-Par vos clés depuis https://supabase.com → Settings → API
+## 🎯 Objectif : Tester que les profils fonctionnent sans internet
 
 ---
 
-### 2️⃣ Installer gh-pages (1 minute)
+## ⏱️ 5 minutes pour tester !
+
+### 📦 Étape 1 : Installer (1 min)
 
 ```bash
-cd "C:\Users\HP\Makka NFC Studio\makka-profiles-web"
-npm install -D gh-pages
+cd "C:\Users\HP\makka profil web\app-profile"
+npm install
 ```
 
----
-
-### 3️⃣ Tester en local (1 minute)
+### 🏗️ Étape 2 : Build l'app (2-5 min)
 
 ```bash
-npm start
+# Option rapide (dev)
+npx expo run:android
+
+# OU Option production (plus long)
+eas build --platform android --profile preview
 ```
 
-Ouvrez http://localhost:3000
-Vérifiez que le profil DEMO01 s'affiche
+### ✍️ Étape 3 : Programmer un tag (1 min)
+
+1. Ouvrir l'app sur votre téléphone
+2. Aller dans "Mes Profils"
+3. Sélectionner un profil
+4. Cliquer "Programmer NFC"
+5. Approcher un tag **NTAG215** ou **NTAG216** (PAS NTAG213 !)
+6. ✅ Attendre message : "vCard écrite (mode offline)"
+
+### 🌐 Étape 4 : Tester avec internet (30 sec)
+
+1. Scanner le tag (WiFi/Data activé)
+2. ✅ Le profil s'ouvre dans le navigateur
+3. ✅ Tout fonctionne normalement
+
+### 📴 Étape 5 : Tester SANS internet (30 sec) ⭐
+
+1. **Activer le Mode Avion** (garder NFC activé)
+2. Scanner le tag
+3. ✅ **Banner orange** "Mode Hors Ligne" s'affiche
+4. ✅ **Profil complet** visible
+5. ✅ **Bouton télécharger** fonctionne
+6. ✅ Fichier `.vcf` importable dans contacts
 
 ---
 
-### 4️⃣ Créer repo GitHub (2 minutes)
+## ✅ Critères de succès
 
-1. https://github.com → New repository
-2. Nom : `makka-profiles`
-3. Public
-4. Create repository
-
-Dans `package.json`, ligne 5, remplacez `USERNAME` :
-```json
-"homepage": "https://VOTRE_USERNAME.github.io/makka-profiles"
-```
+| Test | Résultat attendu |
+|------|------------------|
+| Écriture tag | Message "vCard écrite (mode offline)" |
+| Scan avec internet | Profil s'affiche, console dit "cached" |
+| Scan sans internet | Banner orange + profil complet visible |
+| Téléchargement vCard | Fichier .vcf téléchargé |
+| Import contact | Contact ajouté dans téléphone |
 
 ---
 
-### 5️⃣ Déployer (3 minutes)
+## 🚨 Si ça ne marche pas
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/VOTRE_USERNAME/makka-profiles.git
-git push -u origin main
-npm run deploy
-```
+### Problème : "vCard n'a pas pu être écrite"
+**Cause** : Tag trop petit  
+**Solution** : Utiliser NTAG215 ou NTAG216 (pas NTAG213)
 
-Attendez 1-2 minutes puis visitez :
-```
-https://VOTRE_USERNAME.github.io/makka-profiles/
-```
+### Problème : Profil ne s'affiche pas offline
+**Cause** : Pas encore visité avec internet  
+**Solution** : Scanner une fois avec internet d'abord
+
+### Problème : App ne build pas
+**Cause** : Dépendances manquantes  
+**Solution** : `npm install` puis réessayer
 
 ---
 
-## ✅ C'est tout !
+## 📚 Documentation complète
 
-Votre app est en ligne ! 🎉
-
-**Profil de test disponible :**
-```
-https://VOTRE_USERNAME.github.io/makka-profiles/p/DEMO01
-```
+- **Guide détaillé** : `GUIDE_TEST_OFFLINE.md`
+- **Vue d'ensemble** : `README_OFFLINE_FEATURE.md`
+- **Résumé** : `RESUME_FINAL.md`
+- **Technique** : `OFFLINE_VCARD_IMPLEMENTATION_STATUS.md`
 
 ---
 
-## 📚 Plus d'infos
+## 🎉 C'est tout !
 
-- **Configuration détaillée** → `SUPABASE_CONFIG.md`
-- **Guide complet** → `DEPLOYMENT.md`
-- **Prochaines étapes** → `NEXT_STEPS.md`
-- **Résumé technique** → `PROJECT_SUMMARY.md`
+Si vous voyez le profil en mode avion avec le banner orange, **c'est gagné !** 🚀
 
----
-
-## 🆘 Problème ?
-
-**L'app ne démarre pas en local ?**
-→ Vérifiez les clés Supabase dans `src/lib/supabase.js`
-
-**Aucun profil ne s'affiche ?**
-→ Vérifiez que le profil DEMO01 existe dans Supabase
-
-**Erreur au déploiement ?**
-→ Vérifiez que `homepage` dans `package.json` est correct
-
-**404 sur GitHub Pages ?**
-→ Attendez 2-3 minutes, puis videz le cache (Ctrl+Shift+R)
+**Vous avez une fonctionnalité unique sur le marché !** 💪
 
 ---
 
-**MakkaDev** - Ateib Abakar Bachar
+**MakkaDev - Innovation NFC Tchad** 🇹🇩

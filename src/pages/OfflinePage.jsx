@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { WifiOff, Download, User, Mail, Phone, Globe, Linkedin, Facebook, Twitter, Instagram, Github } from 'lucide-react';
+import { WifiOff, Download, User, Mail, Phone, Globe } from 'lucide-react';
+import { FaLinkedin, FaFacebook, FaTwitter, FaInstagram, FaGithub } from 'react-icons/fa';
 
 export default function OfflinePage() {
   const { id } = useParams();
@@ -10,6 +11,7 @@ export default function OfflinePage() {
   useEffect(() => {
     // Essayer de charger depuis le cache localStorage
     loadFromCache();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   function loadFromCache() {
@@ -141,27 +143,27 @@ export default function OfflinePage() {
                 <div className="flex items-center gap-2 pt-2">
                   {vCardData.socials.linkedin && (
                     <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center">
-                      <Linkedin className="w-4 h-4 text-blue-400" />
+                      <FaLinkedin className="w-4 h-4 text-blue-400" />
                     </div>
                   )}
                   {vCardData.socials.facebook && (
                     <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                      <Facebook className="w-4 h-4 text-blue-400" />
+                      <FaFacebook className="w-4 h-4 text-blue-400" />
                     </div>
                   )}
                   {vCardData.socials.twitter && (
                     <div className="w-8 h-8 rounded-full bg-sky-500/20 flex items-center justify-center">
-                      <Twitter className="w-4 h-4 text-sky-400" />
+                      <FaTwitter className="w-4 h-4 text-sky-400" />
                     </div>
                   )}
                   {vCardData.socials.instagram && (
                     <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
-                      <Instagram className="w-4 h-4 text-pink-400" />
+                      <FaInstagram className="w-4 h-4 text-pink-400" />
                     </div>
                   )}
                   {vCardData.socials.github && (
                     <div className="w-8 h-8 rounded-full bg-slate-700/20 flex items-center justify-center">
-                      <Github className="w-4 h-4 text-slate-300" />
+                      <FaGithub className="w-4 h-4 text-slate-300" />
                     </div>
                   )}
                 </div>
