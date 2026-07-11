@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
+import OfflinePage from './pages/OfflinePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/p/:profileId" element={<ProfilePage />} />
+        <Route path="/offline/:id" element={<OfflinePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

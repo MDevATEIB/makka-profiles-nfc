@@ -34,6 +34,21 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [showLocked, setShowLocked] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  // Détecter les changements de connexion
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   const fetchProfile = useCallback(async () => {
     try {
@@ -54,8 +69,30 @@ export default function ProfilePage() {
       }
       
       setProfile(data);
+
+      // Mettre en cache le profil pour accès offline
+      try {
+        localStorage.setItem(`profile_cache_${profileId}`, JSON.stringify(data));
+        console.log('✅ Profile cached for offline access');
+      } catch (cacheError) {
+        console.warn('⚠️ Failed to cache profile:', cacheError);
+      }
     } catch (error) {
       console.error('Erreur lors du chargement du profil:', error);
+      
+      // Si erreur de connexion, essayer de charger depuis le cache
+      if (!navigator.onLine) {
+        try {
+          const cachedProfile = localStorage.getItem(`profile_cache_${profileId}`);
+          if (cachedProfile) {
+            setProfile(JSON.parse(cachedProfile));
+            console.log('📴 Profile loaded from offline cache');
+            return;
+          }
+        } catch (cacheError) {
+          console.error('Failed to load from cache:', cacheError);
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -68,6 +105,8 @@ export default function ProfilePage() {
   }, [profileId, fetchProfile]);
 
   function downloadVCard() {
+    if (!profile) return;
+    
     const vCardContent = `BEGIN:VCARD
 VERSION:3.0
 N:${profile.last_name};${profile.first_name};;;
@@ -77,9 +116,16 @@ ${profile.company ? `ORG:${profile.company}` : ''}
 ${profile.email ? `EMAIL:${profile.email}` : ''}
 ${profile.phone ? `TEL;TYPE=CELL:${profile.phone}` : ''}
 ${profile.website ? `URL:${profile.website}` : ''}
+${profile.location ? `ADR;TYPE=WORK:;;${profile.location};;;;` : ''}
+${profile.photo_url ? `PHOTO;VALUE=uri:${profile.photo_url}` : ''}
+${profile.socials?.linkedin ? `X-SOCIALPROFILE;TYPE=linkedin:${profile.socials.linkedin}` : ''}
+${profile.socials?.twitter ? `X-SOCIALPROFILE;TYPE=twitter:${profile.socials.twitter}` : ''}
+${profile.socials?.facebook ? `X-SOCIALPROFILE;TYPE=facebook:${profile.socials.facebook}` : ''}
+${profile.socials?.instagram ? `X-SOCIALPROFILE;TYPE=instagram:${profile.socials.instagram}` : ''}
+${profile.socials?.github ? `X-SOCIALPROFILE;TYPE=github:${profile.socials.github}` : ''}
 END:VCARD`;
 
-    const blob = new Blob([vCardContent], { type: 'text/vcard' });
+    const blob = new Blob([vCardContent], { type: 'text/vcard;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -153,6 +199,17 @@ END:VCARD`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Offline Banner */}
+      {isOffline && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 text-center font-semibold shadow-lg">
+          <div className="flex items-center justify-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+            </svg>
+            <span>📴 Mode Hors Ligne - Affichage depuis le cache</span>
+          </div>
+        </div>
+      )}
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
